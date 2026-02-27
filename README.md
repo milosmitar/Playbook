@@ -5,7 +5,7 @@
 - [Guidelines](#guidelines)
 - [Core Technical Pillars](#core-technical-pillars)
 - [Git Workflow](#git-workflow)
-- [Development Tools and Technologies](#development-tools-and-technologies)
+- [Development Tools & Technologies](#development-tools-technologies)
 - [App Architecture](#app-architecture)
 - [Navigation](#navigation)
 - [Networking](#networking)
@@ -20,10 +20,9 @@
 - [End-to-End Data Flow Explained](#end-to-end-data-flow-explained)
     - [Data Flow Lifecycle](#data-flow-lifecycle)
     - [MockWebService Integration](#mockwebservice-integration)
+    
 
-------------------------------------------------------------------------
-
-## Guidelines {#guidelines}
+## Guidelines
 
 This document defines internal iOS development standards, architecture
 principles, and technical practices used across our SwiftUI projects.
@@ -33,7 +32,7 @@ using modern Apple-native technologies.
 
 ------------------------------------------------------------------------
 
-## Core Technical Pillars {#core-technical-pillars}
+## Core Technical Pillars
 
 ### Language
 
@@ -49,9 +48,9 @@ We follow MVVM with a DataStore pattern.
 
 ### Minimum iOS Version
 
-Current Minimum: iOS 15
+ Current Minimum: iOS 15
 
-Recommended Minimum: **iOS 16 or higher**
+ Recommended Minimum: **iOS 16 or higher**
 
 For modern iOS application development, we recommend setting the minimum supported OS version to **iOS 16+**.
 
@@ -69,30 +68,32 @@ Targeting iOS 16+ enables full use of modern SwiftUI and system capabilities, wh
 
 While the minimum version can be adjusted depending on specific project goals or target demographics, supporting significantly older iOS versions is generally not recommended for contemporary SwiftUI-based applications due to increased cost and limited user benefit.
 
+
 ------------------------------------------------------------------------
 
-## Git Workflow {#git-workflow}
+## Git Workflow
 
 We use a simplified GitFlow model.
 
-Branches: - main → production - dev → development - feature/* → new work
+Branches: - main → production - dev → development - feature/\* → new
+work
 
 Versioning follows Semantic Versioning.
 
 ------------------------------------------------------------------------
 
-## Development Tools and Technologies {#development-tools-and-technologies}
+## Development Tools & Technologies
 
-- Xcode
-- SwiftUI
-- Async/Await
-- URLSession
-- CoreData
-- Firebase SDK
+-   Xcode
+-   SwiftUI
+-   Async/Await
+-   URLSession
+-   CoreData
+-   Firebase SDK
 
 ------------------------------------------------------------------------
 
-## App Architecture {#app-architecture}
+## App Architecture
 
 ### Layers
 
@@ -102,55 +103,67 @@ The application follows a Model–View–ViewModel (MVVM) architecture enhanced 
 
 In this structure:
 
-- Views (SwiftUI) are responsible only for UI rendering.
-- ViewModels manage presentation logic and UI state.
-- DataStores handle networking, data processing, and communication with backend services.
+  - Views (SwiftUI) are responsible only for UI rendering.
+
+  - ViewModels manage presentation logic and UI state.
+
+  - DataStores handle networking, data processing, and communication with backend services.
 
 This separation provides:
 
-- clear responsibility boundaries
-- improved testability
-- better maintainability
-- easier scalability as the application grows
+  - clear responsibility boundaries
+
+  - improved testability
+
+  - better maintainability
+
+  - easier scalability as the application grows
 
 The DataStore layer acts as a centralized entry point for all data operations, ensuring consistent handling of API calls across the application.
 
 ------------------------------------------------------------------------
 
-## Navigation {#navigation}
+## Navigation
 
-We use a custom Router architecture based on NavigationState and Route enum.
+We use a custom Router architecture based on NavigationState and Route
+enum.
 
 Navigation is driven by NavigationStack.
 
 ------------------------------------------------------------------------
 
-## Networking {#networking}
+## Networking
 
 Architecture includes:
 
-- NetworkServiceFactory
-- WebRepository
-- HTTPClient
-- MockWebService
+-   NetworkServiceFactory
+-   WebRepository
+-   HTTPClient
+-   MockWebService
 
 Custom Networking Layer
 
-The project uses a fully custom networking solution built on top of URLSession and Swift’s Async/Await concurrency model.
+ The project uses a fully custom networking solution built on top of URLSession and Swift’s Async/Await concurrency model.
 
 This approach was chosen to:
 
-- maintain full control over request handling
-- support advanced features like certificate pinning
-- provide consistent error mapping
-- avoid unnecessary third-party dependencies
+  - maintain full control over request handling
+
+  - support advanced features like certificate pinning
+
+  - provide consistent error mapping
+
+  - avoid unnecessary third-party dependencies
 
 All network requests are executed through a centralized HTTPClient, which is responsible for:
 
-- request configuration
-- response validation
-- error mapping
-- JSON decoding
+  - request configuration
+
+  - response validation
+
+  - error mapping
+
+  - JSON decoding
 
 This ensures a standardized and predictable networking workflow.
 
@@ -160,11 +173,14 @@ A NetworkServiceFactory is used to dynamically provide the correct network imple
 
 This enables:
 
-- seamless switching between real and mock services
-- simplified testing and debugging
-- environment-based configuration
+  - seamless switching between real and mock services
+
+  - simplified testing and debugging
+
+  - environment-based configuration
 
 It plays a key role in maintaining flexibility and supporting automated testing.
+
 
 Concurrency Model
 Async/Await
@@ -173,19 +189,22 @@ The project uses Swift’s modern Async/Await concurrency model for handling asy
 
 This approach offers:
 
-- cleaner and more readable asynchronous code
-- reduced callback nesting
-- better error propagation using try/await
-- improved thread safety
+  - cleaner and more readable asynchronous code
 
-Async/Await integrates naturally with SwiftUI’s `.task` modifier, allowing network calls to be triggered directly within views in a safe and structured way.
+  - reduced callback nesting
+
+  - better error propagation using try/await
+
+  - improved thread safety
+
+Async/Await integrates naturally with SwiftUI’s .task modifier, allowing network calls to be triggered directly within views in a safe and structured way.
 
 ------------------------------------------------------------------------
 
-## Persistent Storage {#persistent-storage}
+## Persistent Storage
 
-CoreData → structured data  
-UserDefaults → settings  
+CoreData → structured data\
+UserDefaults → settings\
 Keychain → secure storage
 
 CoreData
@@ -194,10 +213,13 @@ CoreData is used for local data storage and offline persistence.
 
 It provides:
 
-- efficient object graph management
-- local caching capabilities
-- improved performance through managed contexts
-- built-in data relationships and migration support
+  - efficient object graph management
+
+  - local caching capabilities
+
+  - improved performance through managed contexts
+
+  - built-in data relationships and migration support
 
 This allows the application to maintain local state even when network connectivity is limited.
 
@@ -207,18 +229,19 @@ UserDefaults is used for storing lightweight, non-sensitive configuration data s
 
 Keychain is used for securely storing sensitive information, including:
 
-- authentication tokens
-- user credentials
+  - authentication tokens
+
+  - user credentials
 
 Using Keychain ensures compliance with Apple security best practices and protects critical user data.
 
 ------------------------------------------------------------------------
 
-## Firebase Integration {#firebase-integration}
+## Firebase Integration
 
-- Analytics
-- Crashlytics
-- Push Notifications (Firebase Messaging)
+-   Analytics
+-   Crashlytics
+-   Push Notifications (Firebase Messaging)
 
 Analytics, Crashlytics, and Notifications
 
@@ -226,32 +249,40 @@ Firebase services are integrated to support monitoring and user engagement.
 
 These include:
 
-- Firebase Analytics for tracking user behavior
-- Crashlytics for real-time crash reporting
-- Firebase Cloud Messaging for push notifications
+  - Firebase Analytics for tracking user behavior
+
+  - Crashlytics for real-time crash reporting
+
+  - Firebase Cloud Messaging for push notifications
 
 This setup provides valuable insights into application performance and helps ensure rapid issue detection.
 
 ------------------------------------------------------------------------
 
-## Testing {#testing}
+## Testing
 
 Unit Tests: - ViewModel logic
 
 UI Tests: - Navigation & screens
 
+
 The project includes:
 
-- Unit tests for ViewModels
-- UI tests for critical user flows
-- Mock services for controlled test environments
+-   Unit tests for ViewModels
+
+-   UI tests for critical user flows
+
+-   Mock services for controlled test environments
 
 This testing strategy ensures:
 
-- business logic correctness
-- UI stability
-- regression prevention
-- reliable feature development
+-   business logic correctness
+
+-   UI stability
+
+-   regression prevention
+
+-   reliable feature development
 
 MockWebService plays a central role in enabling deterministic and repeatable tests.
 
@@ -259,7 +290,7 @@ MockWebService used for: - Debug - UI previews - Testing
 
 ------------------------------------------------------------------------
 
-## Task Management {#task-management}
+## Task Management
 
 Tasks must be: - Actionable - Contextual - Testable
 
@@ -267,10 +298,9 @@ Lifecycle: In Progress → Review → Test → Done
 
 ------------------------------------------------------------------------
 
-## Developer Onboarding Guide {#developer-onboarding-guide}
+## Developer Onboarding Guide
 
-### App Navigation {#app-navigation}
-
+## App Navigation
 
 ### **Navigation Architecture Overview**
 
@@ -364,7 +394,10 @@ It also aligns with the unidirectional data flow architecture used throughout th
 * Routes must be strongly typed.
 * Associated data should be passed via `Route` cases rather than global state.
 
-### Creating a New Screen {#creating-new-screen}
+
+------------------------------------------------------------------------
+
+## Creating a New Screen
 
 ### Goal
 
@@ -414,10 +447,11 @@ These objects allow the View to remain lightweight while delegating logic to app
 * No networking calls should exist inside Views.
 * All screens must include SwiftUI previews.
 
+---
 
 ------------------------------------------------------------------------
 
-### Adding an API Endpoint {#adding-api-endpoint
+## Adding an API Endpoint
 
 ### Goal
 
@@ -520,10 +554,19 @@ Once data is successfully retrieved:
 
 ------------------------------------------------------------------------
 
-## End-to-End Data Flow Explained {#end-to-end-data-flow-explained}
 
-### Data Flow Lifecycle {#data-flow-lifecycle}
+## End-to-End Data Flow Explained
 
+### Overview
+
+The application follows a **unidirectional, state-driven data flow**.
+This ensures predictable UI updates, clear separation of responsibilities, and easier debugging.
+
+All user interactions and data updates move through well-defined architectural layers.
+
+---
+
+## Data Flow Lifecycle
 
 ### 1. User Interaction
 
@@ -634,9 +677,9 @@ After the DataStore updates its published state:
 
 This reactive binding guarantees synchronization between data and UI.
 
-------------------------------------------------------------------------
+---
 
-### MockWebService Integration {#mockwebservice-integration}
+## MockWebService Integration
 
 Every new API endpoint must also be implemented in **MockWebService**.
 
@@ -679,6 +722,7 @@ This architecture provides:
 
 It aligns with modern SwiftUI and MVVM best practices while ensuring scalability for large applications.
 
+
 ------------------------------------------------------------------------
 
 ### Testing Feature
@@ -690,10 +734,10 @@ It aligns with modern SwiftUI and MVVM best practices while ensuring scalability
 
 ## Key Principles
 
-- Separation of concerns
-- Unidirectional data flow
-- Testable networking
-- Feature-based architecture
+-   Separation of concerns
+-   Unidirectional data flow
+-   Testable networking
+-   Feature-based architecture
 
 ------------------------------------------------------------------------
 
